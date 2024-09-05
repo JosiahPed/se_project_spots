@@ -17,4 +17,4 @@ This website is an image sharing platform, made in responsive design to fit desk
 
 **Website**
 
-- Deployment Link
+- [Deployment Link](https://josiahped.github.io/se_project_spots/)
