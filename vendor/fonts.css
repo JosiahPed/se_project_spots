@@ -4,3 +4,12 @@
   font-weight: 400;
   src: url("../vendor/fonts/Poppins/Poppins-Regular.ttf") format("truetype");
 }
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  src: url("../vendor/fonts/Poppins/Poppins-Medium.ttf") format("truetype");
+}
+
+/* How do you know what fonts to connect? On Figma it looked like it just said Poppins, unless I was missing where to see it. Is it by the font weight? - thank you */
