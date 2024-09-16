@@ -22,4 +22,4 @@ This website is an image sharing platform, made in responsive design to fit desk
 **Video of Project**
 
 - [Video Link](https://drive.google.com/file/d/1JraCFT2XVYZULEdfo0998l9qTBKdUbqf/view?usp=sharing)
-      I appologize for the background noise. I am going to rercord the video when I move and upload it.
+  I appologize for the background noise. I am going to rerecord the video when I move and upload it.
