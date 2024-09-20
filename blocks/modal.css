@@ -84,6 +84,10 @@
   cursor: pointer;
 }
 
+.modal__input:enabled {
+  opacity: 100%;
+}
+
 .modal__submit-button {
   width: 156px;
   padding: 18px 0;
