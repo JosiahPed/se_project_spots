@@ -6,6 +6,7 @@ This website is an image sharing platform, made in responsive design to fit desk
 
 **Tech Stack**
 
+- JavaScript
 - HTML
 - CSS
 - Figma
