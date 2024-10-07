@@ -30,6 +30,7 @@
   height: 20px;
   width: 23px;
   border: none;
+  background-repeat: no-repeat;
   background-color: transparent;
   opacity: 40%;
   transition: opacity 0.25s ease 0.15s;
@@ -54,5 +55,4 @@
     width: 20px;
     height: 18px;
   }
-  /* it doesn't say it in the brief, but would we typically remove the hover property for the media quarey for phones? */
 }
