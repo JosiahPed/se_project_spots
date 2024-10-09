@@ -26,12 +26,10 @@
 }
 
 .card__like-button {
-  background-image: url(../images/heart.svg);
+  background: transparent url("../images/heart.svg") center no-repeat;
   height: 20px;
   width: 23px;
   border: none;
-  background-repeat: no-repeat;
-  background-color: transparent;
   opacity: 40%;
   transition: opacity 0.25s ease 0.15s;
 }
@@ -39,6 +37,15 @@
 .card__like-button:hover {
   opacity: 100%;
   cursor: pointer;
+}
+
+.card__like-button_liked {
+  background-image: url("../images/liked.svg");
+  opacity: 100%;
+}
+
+.card__like-button_liked:hover {
+  background-image: url("../images/liked-hover.svg");
 }
 
 @media screen and (max-width: 661px) {
@@ -51,7 +58,7 @@
   }
 
   .card__like-button {
-    background-image: url(../images/small-like-button.png);
+    background-image: url("../images/small-like-button.svg");
     width: 20px;
     height: 18px;
   }
