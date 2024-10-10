@@ -29,6 +29,11 @@ const initialCards = [
     link: "images/6.2david-izquierdo-XXec738eA9I-unsplash.jpg",
     alt: "photo of Pikes Place Market",
   },
+  {
+    name: "Golden Gate Bridge",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/7-photo-by-griffin-wooldridge-from-pexels.jpg",
+    alt: "photo of Golden Gate Bridge",
+  },
 ];
 
 // profile edit selectors
@@ -54,6 +59,14 @@ const newPostForm = newPostModal.querySelector(".modal__form");
 const newPostCloseButton = newPostModal.querySelector(".modal__close-button");
 const newPostLink = newPostModal.querySelector("#new-post-link-input");
 const newPostCaption = newPostModal.querySelector("#new-post-caption-input");
+
+//image-preview modal elements
+const imagePreviewModal = document.querySelector("#preview-modal");
+const imagePreviewCloseButton = imagePreviewModal.querySelector(
+  ".modal__close-button"
+);
+const imagePreviewEl = imagePreviewModal.querySelector(".modal__image");
+const imagePreviewCaption = imagePreviewModal.querySelector(".modal__caption");
 
 // cards
 const cardTemplate = document.querySelector("#card-template");
@@ -82,6 +95,17 @@ function getCardElement(data) {
     if (deleteCard) {
       deleteCard.remove();
     }
+  });
+
+  cardImageEl.addEventListener("click", () => {
+    openModal(imagePreviewModal);
+    imagePreviewEl.src = data.link;
+    imagePreviewCaption.textContent = data.name;
+    imagePreviewEl.alt = data.alt;
+  });
+
+  imagePreviewCloseButton.addEventListener("click", () => {
+    closeModal(imagePreviewModal);
   });
 
   return cardElement;
