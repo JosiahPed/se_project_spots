@@ -29,11 +29,6 @@ const initialCards = [
     link: "images/6.2david-izquierdo-XXec738eA9I-unsplash.jpg",
     alt: "photo of Pikes Place Market",
   },
-  {
-    name: "Golden Gate Bridge",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/7-photo-by-griffin-wooldridge-from-pexels.jpg",
-    alt: "photo of Golden Gate Bridge",
-  },
 ];
 
 // profile edit selectors
