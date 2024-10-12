@@ -159,6 +159,10 @@
     padding: 12px;
   }
 
+  .modal__image {
+    max-width: none;
+  }
+
   .modal__title {
     font-size: 20px;
 
