@@ -97,10 +97,6 @@ function getCardElement(data) {
     imagePreviewEl.alt = data.alt;
   });
 
-  imagePreviewCloseButton.addEventListener("click", () => {
-    closeModal(imagePreviewModal);
-  });
-
   return cardElement;
 }
 
@@ -145,6 +141,10 @@ editModalCloseButton.addEventListener("click", () => {
 
 editFormElement.addEventListener("submit", handleEditFormSubmit);
 newPostForm.addEventListener("submit", handleNewPostSubmit);
+
+imagePreviewCloseButton.addEventListener("click", () => {
+  closeModal(imagePreviewModal);
+});
 
 newPostButton.addEventListener("click", () => {
   openModal(newPostModal);
