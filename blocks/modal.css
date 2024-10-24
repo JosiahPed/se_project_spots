@@ -123,6 +123,11 @@
   transition: opacity 0.25s ease 0.15s;
 }
 
+.modal__input_type_error {
+  border-radius: 8px;
+  border: 1px, solid, rgba(255, 0, 0, 0.6);
+}
+
 .modal__input:hover {
   opacity: 100%;
   cursor: pointer;
@@ -130,6 +135,13 @@
 
 .modal__input:enabled {
   opacity: 100%;
+}
+
+.modal__error {
+  color: rgba(255, 0, 0, 0.7);
+  font-family: Poppins, "Times New Roman", serif;
+  font-size: 16px;
+  line-height: 1.1;
 }
 
 .modal__submit-button {
@@ -143,6 +155,10 @@
   line-height: 1;
   font-weight: 500;
   transition: background 0.25s ease 0.15s;
+}
+.modal__submit-button_inactive {
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
 }
 
 .modal__submit-button:hover {
