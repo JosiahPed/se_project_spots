@@ -31,6 +31,8 @@ const initialCards = [
   },
 ];
 
+const closeButtons = document.querySelectorAll(".modal__close-button");
+
 // profile edit selectors
 const profileEditButton = document.querySelector(".profile__edit-button");
 const editProfileName = document.querySelector(".profile__name");
@@ -101,6 +103,11 @@ function getCardElement(data) {
   return cardElement;
 }
 
+function renderCard(item, method = "prepend") {
+  const cardElement = getCardElement(item);
+  cardsList[method](cardElement);
+}
+
 // open, close, and submit modal-forms functions
 function closeModalOptions(evt) {
   if (evt.key === "Escape") {
@@ -157,25 +164,19 @@ profileEditButton.addEventListener("click", () => {
   openModal(editModal);
 });
 
-editModalCloseButton.addEventListener("click", () => {
-  closeModal(editModal);
+closeButtons.forEach((button) => {
+  const modal = button.closest(".modal");
+  button.addEventListener("click", () => closeModal(modal));
 });
 
 editFormElement.addEventListener("submit", handleEditFormSubmit);
 newPostForm.addEventListener("submit", handleNewPostSubmit);
 
-imagePreviewCloseButton.addEventListener("click", () => {
-  closeModal(imagePreviewModal);
-});
-
 newPostButton.addEventListener("click", () => {
   openModal(newPostModal);
-});
-newPostCloseButton.addEventListener("click", () => {
-  closeModal(newPostModal);
 });
 
 initialCards.forEach((card) => {
   const cardEl = getCardElement(card);
-  cardsList.prepend(cardEl);
+  renderCard(card, (method = "prepend"));
 });
