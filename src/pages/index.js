@@ -1,32 +1,60 @@
+import "./index.css";
+
+import { enableValidation } from "../scripts/validation.js";
+import { disableButton } from "../scripts/validation.js";
+import { settings } from "../scripts/validation.js";
+import { resetValidation } from "../scripts/validation.js";
+
+import logoSrc from "../images/logo.svg";
+import avatarSrc from "../images/avatar.jpg";
+import pencilSrc from "../images/pencil.svg";
+import newPostSrc from "../images/new_post.svg";
+
+const logoImage = document.getElementById("logo-svg");
+logoImage.src = logoSrc;
+const avatarImage = document.getElementById("avatar");
+avatarImage.src = avatarSrc;
+const pencilImage = document.getElementById("pencil-svg");
+pencilImage.src = pencilSrc;
+const newPostImage = document.getElementById("new_post-svg");
+newPostImage.src = newPostSrc;
+
+import galaxyImage from "../images/1.2scott-lord-hnBcyFZR--Q-unsplash.jpg";
+import pacificNorthWestImage from "../images/2.2aiden-_luqEchlLxQ-unsplash.jpg";
+import fallImage from "../images/3.2noah-silliman-y3IwQ9hUE4A-unsplash.jpg";
+import rockyMountainsImage from "../images/4.2mike-scheid-xoYPV4oVQJI-unsplash.jpg";
+import gravelBikeImage from "../images/5.2alessio-soggetti-sJE9qSemdFk-unsplash.jpg";
+import pikesPlaceImage from "../images/6.2david-izquierdo-XXec738eA9I-unsplash.jpg";
+
 const initialCards = [
   {
     name: "In a galaxy far, far away...",
-    link: "images/1.2scott-lord-hnBcyFZR--Q-unsplash.jpg",
+    link: galaxyImage,
     alt: "photo of galaxy",
   },
   {
     name: "Pacific North West",
-    link: "images/2.2aiden-_luqEchlLxQ-unsplash.jpg",
+    link: pacificNorthWestImage,
     alt: "photo of pacific north west ocean",
   },
   {
     name: "Fall, my favorite time of the year!",
-    link: "images/3.2noah-silliman-y3IwQ9hUE4A-unsplash.jpg",
+    link: fallImage,
     alt: "photo of mountains in fall",
   },
   {
     name: "Rocky Mountain high",
-    link: "images/4.2mike-scheid-xoYPV4oVQJI-unsplash.jpg",
+    link: rockyMountainsImage,
     alt: "photo of mountains",
   },
   {
     name: "Gravel ride'n",
-    link: "images/5.2alessio-soggetti-sJE9qSemdFk-unsplash.jpg",
+    link: gravelBikeImage,
     alt: "photo of riding a bike on a dirt road",
   },
   {
     name: "Pike Place Market, reminds me of grandpa.",
-    link: "images/6.2david-izquierdo-XXec738eA9I-unsplash.jpg",
+    link: pikesPlaceImage,
     alt: "photo of Pikes Place Market",
   },
 ];
@@ -178,5 +206,7 @@ newPostButton.addEventListener("click", () => {
 
 initialCards.forEach((card) => {
   const cardEl = getCardElement(card);
-  renderCard(card, (method = "prepend"));
+  renderCard(card);
 });
+
+enableValidation(settings);

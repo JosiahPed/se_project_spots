@@ -7,27 +7,22 @@
     <meta name="description" content="Social media page for sharing photos" />
     <meta name="keywords" content="social media, photos, spots" />
     <meta name="author" content="Josiah Pedersen" />
-    <link rel="stylesheet" href="./pages/index.css" />
     <link rel="shortcut icon" href="favicon.ico" />
   </head>
   <body>
     <div class="page">
       <header class="header">
-        <img src="./images/logo.svg" alt="Spots logo" class="header__logo" />
+        <img id="logo-svg" alt="Spots logo" class="header__logo" />
       </header>
       <main class="content">
         <section class="profile">
-          <img
-            src="./images/avatar.jpg"
-            alt="profile picture"
-            class="profile__avatar"
-          />
+          <img id="avatar" alt="profile picture" class="profile__avatar" />
           <div class="profile__box">
             <h1 class="profile__name">Bessie Coleman</h1>
             <p class="profile__description">Civil Aviator</p>
             <button type="button" class="profile__edit-button">
               <img
-                src="./images/pencil.svg"
+                id="pencil-svg"
                 alt="pencil icon"
                 class="profile__edit-button-pencil"
               />
@@ -36,7 +31,7 @@
           </div>
           <button type="button" class="profile__new-post-button">
             <img
-              src="./images/new_post.svg"
+              id="new_post-svg"
               alt="plus icon"
               class="profile__new-post-button-plus"
             />New Post
@@ -168,7 +163,5 @@
         </div>
       </div>
     </div>
-    <script src="./scripts/validation.js"></script>
-    <script src="./scripts/index.js" defer></script>
   </body>
 </html>
