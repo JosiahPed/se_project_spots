@@ -1,4 +1,29 @@
 import "./index.css";
+import Api from "../utils/Api.js";
+
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "1810d547-91a3-4cf2-9027-84faa0c5dd2e",
+    "Content-Type": "application/json",
+  },
+});
+
+api
+  .getAppInfo()
+  .then(([cards, users]) => {
+    cards.forEach((card) => {
+      const cardEl = getCardElement(card);
+      renderCard(card);
+    });
+
+    editProfileName.textContent = users.name;
+    editProfileDescription.textContent = users.about;
+    avatarImage.src = users.avatar;
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 import { enableValidation } from "../scripts/validation.js";
 import { disableButton } from "../scripts/validation.js";
@@ -9,6 +34,7 @@ import logoSrc from "../images/logo.svg";
 import avatarSrc from "../images/avatar.jpg";
 import pencilSrc from "../images/pencil.svg";
 import newPostSrc from "../images/new_post.svg";
+import pencilAvatarSrc from "../images/pencil-white.svg";
 
 const logoImage = document.getElementById("logo-svg");
 logoImage.src = logoSrc;
@@ -18,6 +44,8 @@ const pencilImage = document.getElementById("pencil-svg");
 pencilImage.src = pencilSrc;
 const newPostImage = document.getElementById("new_post-svg");
 newPostImage.src = newPostSrc;
+const avatarEdit = document.getElementById("pencil-avatar");
+avatarEdit.src = pencilAvatarSrc;
 
 import galaxyImage from "../images/1.2scott-lord-hnBcyFZR--Q-unsplash.jpg";
 import pacificNorthWestImage from "../images/2.2aiden-_luqEchlLxQ-unsplash.jpg";
@@ -26,38 +54,38 @@ import rockyMountainsImage from "../images/4.2mike-scheid-xoYPV4oVQJI-unsplash.j
 import gravelBikeImage from "../images/5.2alessio-soggetti-sJE9qSemdFk-unsplash.jpg";
 import pikesPlaceImage from "../images/6.2david-izquierdo-XXec738eA9I-unsplash.jpg";
 
-const initialCards = [
-  {
-    name: "In a galaxy far, far away...",
-    link: galaxyImage,
-    alt: "photo of galaxy",
-  },
-  {
-    name: "Pacific North West",
-    link: pacificNorthWestImage,
-    alt: "photo of pacific north west ocean",
-  },
-  {
-    name: "Fall, my favorite time of the year!",
-    link: fallImage,
-    alt: "photo of mountains in fall",
-  },
-  {
-    name: "Rocky Mountain high",
-    link: rockyMountainsImage,
-    alt: "photo of mountains",
-  },
-  {
-    name: "Gravel ride'n",
-    link: gravelBikeImage,
-    alt: "photo of riding a bike on a dirt road",
-  },
-  {
-    name: "Pike Place Market, reminds me of grandpa.",
-    link: pikesPlaceImage,
-    alt: "photo of Pikes Place Market",
-  },
-];
+// const initialCards = [
+//   {
+//     name: "In a galaxy far, far away...",
+//     link: galaxyImage,
+//     alt: "photo of galaxy",
+//   },
+//   {
+//     name: "Pacific North West",
+//     link: pacificNorthWestImage,
+//     alt: "photo of pacific north west ocean",
+//   },
+//   {
+//     name: "Fall, my favorite time of the year!",
+//     link: fallImage,
+//     alt: "photo of mountains in fall",
+//   },
+//   {
+//     name: "Rocky Mountain high",
+//     link: rockyMountainsImage,
+//     alt: "photo of mountains",
+//   },
+//   {
+//     name: "Gravel ride'n",
+//     link: gravelBikeImage,
+//     alt: "photo of riding a bike on a dirt road",
+//   },
+//   {
+//     name: "Pike Place Market, reminds me of grandpa.",
+//     link: pikesPlaceImage,
+//     alt: "photo of Pikes Place Market",
+//   },
+// ];
 
 const closeButtons = document.querySelectorAll(".modal__close-button");
 
@@ -69,12 +97,22 @@ const editProfileDescription = document.querySelector(".profile__description");
 // edit modal elements
 const editModal = document.querySelector("#edit-modal");
 const editFormElement = document.forms["edit-profile-form"];
-const editPostSubmitButton = editModal.querySelector(".modal__submit-button");
+const editPostSubmitButton = editModal.querySelector(".modal__button");
 const editModalCloseButton = editModal.querySelector(".modal__close-button");
 const editModalName = editModal.querySelector("#profile-name-input");
 const editModalDescription = editModal.querySelector(
   "#profile-description-input"
 );
+
+const profileAvatarBtn = document.querySelector(".profile__avatar-btn");
+const avatarModal = document.querySelector("#avatar-modal");
+const avatarFormElement = avatarModal.querySelector(".modal__form");
+const avatarInput = avatarModal.querySelector("#profile-pic-input");
+const avatarSubmitButton = avatarModal.querySelector(".modal__button");
+
+const cardDeleteModal = document.querySelector("#card-delete-modal");
+const cardDeleteForm = cardDeleteModal.querySelector(".modal__form");
+const submitDeleteBtn = cardDeleteModal.querySelector("#delete-submit");
 
 // new-post button
 const newPostButton = document.querySelector(".profile__new-post-button");
@@ -82,7 +120,7 @@ const newPostButton = document.querySelector(".profile__new-post-button");
 // new-post modal elements
 const newPostModal = document.querySelector("#new-post-modal");
 const newPostForm = document.forms["new-post-form"];
-const newPostSubmitButton = newPostModal.querySelector(".modal__submit-button");
+const newPostSubmitButton = newPostModal.querySelector(".modal__button");
 const newPostCloseButton = newPostModal.querySelector(".modal__close-button");
 const newPostLink = newPostModal.querySelector("#new-post-link-input");
 const newPostCaption = newPostModal.querySelector("#new-post-caption-input");
@@ -98,6 +136,9 @@ const imagePreviewCaption = imagePreviewModal.querySelector(".modal__caption");
 // cards
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
+
+let selectedCard;
+let selectedCardId;
 
 function getCardElement(data) {
   const cardElement = cardTemplate.content
@@ -117,9 +158,9 @@ function getCardElement(data) {
     cardLikeBtn.classList.toggle("card__like-button_liked");
   });
 
-  cardDeleteBtn.addEventListener("click", () => {
-    cardElement.remove();
-  });
+  cardDeleteBtn.addEventListener("click", (evt) =>
+    handleDeleteCard(cardElement, data._id)
+  );
 
   cardImageEl.addEventListener("click", () => {
     openModal(imagePreviewModal);
@@ -159,25 +200,77 @@ function closeModal(modal) {
   modal.removeEventListener("mousedown", closeModalOptions);
 }
 
+function handleDeleteCard(cardElement, data) {
+  // evt.target.closest(".card").remove();
+  selectedCard = cardElement;
+  selectedCardId = data;
+  openModal(cardDeleteModal);
+}
+
+function handleDeleteSubmit(evt) {
+  evt.preventDefault();
+  api
+    .deleteCard(selectedCardId)
+    .then(() => {
+      selectedCard.remove();
+      closeModal(cardDeleteModal);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
+
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-  editProfileName.textContent = editModalName.value;
-  editProfileDescription.textContent = editModalDescription.value;
-  closeModal(editModal);
-  disableButton(editPostSubmitButton, settings);
+  api
+    .editUserInfo({
+      name: editModalName.value,
+      about: editModalDescription.value,
+    })
+    .then((data) => {
+      editProfileName.textContent = data.name;
+      editProfileDescription.textContent = data.about;
+      closeModal(editModal);
+      disableButton(editPostSubmitButton, settings);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
+
+function handleAvatarFormSubmit(evt) {
+  evt.preventDefault();
+  api
+    .editUserAvatar({ avatar: avatarInput.value })
+    .then((data) => {
+      avatarImage.src = data.avatar;
+      closeModal(avatarModal);
+      evt.target.reset();
+      disableButton(avatarSubmitButton, settings);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 }
 
 function handleNewPostSubmit(evt) {
   evt.preventDefault();
-  const inputValues = {
-    name: newPostCaption.value,
-    link: newPostLink.value,
-  };
-  const cardEl = getCardElement(inputValues);
-  cardsList.prepend(cardEl);
-  closeModal(newPostModal);
-  evt.target.reset();
-  disableButton(newPostSubmitButton, settings);
+  api
+    .postCard({ name: newPostCaption.value, link: newPostLink.value })
+    .then((data) => {
+      const inputValues = {
+        name: data.name,
+        link: data.link,
+      };
+      const cardEl = getCardElement(inputValues);
+      cardsList.prepend(cardEl);
+      closeModal(newPostModal);
+      evt.target.reset();
+      disableButton(newPostSubmitButton, settings);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 }
 
 // event listeners for buttons
@@ -199,14 +292,15 @@ closeButtons.forEach((button) => {
 
 editFormElement.addEventListener("submit", handleEditFormSubmit);
 newPostForm.addEventListener("submit", handleNewPostSubmit);
+avatarFormElement.addEventListener("submit", handleAvatarFormSubmit);
+cardDeleteForm.addEventListener("submit", handleDeleteSubmit);
 
 newPostButton.addEventListener("click", () => {
   openModal(newPostModal);
 });
 
-initialCards.forEach((card) => {
-  const cardEl = getCardElement(card);
-  renderCard(card);
+profileAvatarBtn.addEventListener("click", () => {
+  openModal(avatarModal);
 });
 
 enableValidation(settings);
