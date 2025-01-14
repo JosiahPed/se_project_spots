@@ -33,6 +33,14 @@
   font-weight: 500;
 }
 
+.modal__container_type_delete-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 24px;
+}
+
 .modal__container_type_preview {
   padding: 0;
   background-color: transparent;
@@ -75,6 +83,13 @@
 }
 
 .modal__close-button_type_preview {
+  background: transparent url(../images/close-button-light.svg) center no-repeat;
+  opacity: 1;
+  top: -5px;
+  right: -45px;
+}
+
+.modal__close-button_type_delete-card {
   background: transparent url(../images/close-button-light.svg) center no-repeat;
   opacity: 1;
   top: -5px;
@@ -156,6 +171,26 @@
   font-weight: 500;
   transition: background 0.25s ease 0.15s;
 }
+
+.modal__button-delete {
+  background-color: rgba(255, 101, 101, 1);
+  color: #000;
+  transition: background 0.25s ease 0.15s;
+  margin-right: 20px;
+}
+
+.modal__button-cancel {
+  background-color: rgb(255, 253, 253);
+  border: solid;
+  color: #000;
+  transition: background 0.25s ease 0.15s;
+}
+
+.modal__button-cancel:hover {
+  background-color: rgba(33, 33, 33, 1);
+  color: #fff;
+}
+
 .modal__button_inactive {
   background-color: rgba(0, 0, 0, 0.5);
   pointer-events: none;
@@ -166,28 +201,9 @@
   cursor: pointer;
 }
 
-/* .modal__cancel-button {
-  width: 156px;
-  padding: 18px 0;
-  background-color: #000;
-  border-radius: 8px;
-  border: none;
-  color: #fff;
-  font-size: 16px;
-  line-height: 1;
-  font-weight: 500;
-  transition: background 0.25s ease 0.15s;
+.modal__button-delete:hover {
+  background-color: rgba(255, 51, 51, 1);
 }
-
-.modal__cancel-button_inactive {
-  background-color: rgba(0, 0, 0, 0.5);
-  pointer-events: none;
-}
-
-.modal__cancel-button:hover {
-  background-color: rgba(33, 33, 33, 0.8);
-  cursor: pointer;
-} */
 
 @media screen and (max-width: 660px) {
   .modal {

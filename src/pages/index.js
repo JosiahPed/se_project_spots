@@ -54,39 +54,6 @@ import rockyMountainsImage from "../images/4.2mike-scheid-xoYPV4oVQJI-unsplash.j
 import gravelBikeImage from "../images/5.2alessio-soggetti-sJE9qSemdFk-unsplash.jpg";
 import pikesPlaceImage from "../images/6.2david-izquierdo-XXec738eA9I-unsplash.jpg";
 
-// const initialCards = [
-//   {
-//     name: "In a galaxy far, far away...",
-//     link: galaxyImage,
-//     alt: "photo of galaxy",
-//   },
-//   {
-//     name: "Pacific North West",
-//     link: pacificNorthWestImage,
-//     alt: "photo of pacific north west ocean",
-//   },
-//   {
-//     name: "Fall, my favorite time of the year!",
-//     link: fallImage,
-//     alt: "photo of mountains in fall",
-//   },
-//   {
-//     name: "Rocky Mountain high",
-//     link: rockyMountainsImage,
-//     alt: "photo of mountains",
-//   },
-//   {
-//     name: "Gravel ride'n",
-//     link: gravelBikeImage,
-//     alt: "photo of riding a bike on a dirt road",
-//   },
-//   {
-//     name: "Pike Place Market, reminds me of grandpa.",
-//     link: pikesPlaceImage,
-//     alt: "photo of Pikes Place Market",
-//   },
-// ];
-
 const closeButtons = document.querySelectorAll(".modal__close-button");
 
 // profile edit selectors
@@ -154,9 +121,13 @@ function getCardElement(data) {
   cardImageEl.setAttribute("src", data.link);
   cardImageEl.setAttribute("alt", data.alt);
 
-  cardLikeBtn.addEventListener("click", () => {
-    cardLikeBtn.classList.toggle("card__like-button_liked");
-  });
+  if (data.isLiked) {
+    cardLikeBtn.classList.add("card__like-button_liked");
+  }
+
+  cardLikeBtn.addEventListener("click", (evt) =>
+    handleCardLike(evt, data._id, data.isLiked)
+  );
 
   cardDeleteBtn.addEventListener("click", (evt) =>
     handleDeleteCard(cardElement, data._id)
@@ -200,8 +171,18 @@ function closeModal(modal) {
   modal.removeEventListener("mousedown", closeModalOptions);
 }
 
+function handleCardLike(evt, id, isLiked) {
+  api
+    .handleLike(id, isLiked)
+    .then(() => {
+      evt.target.classList.toggle("card__like-button_liked");
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
+
 function handleDeleteCard(cardElement, data) {
-  // evt.target.closest(".card").remove();
   selectedCard = cardElement;
   selectedCardId = data;
   openModal(cardDeleteModal);
@@ -209,6 +190,8 @@ function handleDeleteCard(cardElement, data) {
 
 function handleDeleteSubmit(evt) {
   evt.preventDefault();
+  const submitBtn = evt.submitter;
+  submitBtn.textContent = "Deleting...";
   api
     .deleteCard(selectedCardId)
     .then(() => {
@@ -217,11 +200,17 @@ function handleDeleteSubmit(evt) {
     })
     .catch((err) => {
       console.error(err);
+    })
+    .finally(() => {
+      submitBtn.textContent = "Delete";
     });
 }
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
+  const submitBtn = evt.submitter;
+  submitBtn.textContent = "Saving...";
+
   api
     .editUserInfo({
       name: editModalName.value,
@@ -235,11 +224,16 @@ function handleEditFormSubmit(evt) {
     })
     .catch((err) => {
       console.error(err);
+    })
+    .finally(() => {
+      submitBtn.textContent = "Save";
     });
 }
 
 function handleAvatarFormSubmit(evt) {
   evt.preventDefault();
+  const submitBtn = evt.submitter;
+  submitBtn.textContent = "Saving...";
   api
     .editUserAvatar({ avatar: avatarInput.value })
     .then((data) => {
@@ -250,11 +244,17 @@ function handleAvatarFormSubmit(evt) {
     })
     .catch((err) => {
       console.error(err);
+    })
+    .finally(() => {
+      submitBtn.textContent = "Save";
     });
 }
 
 function handleNewPostSubmit(evt) {
   evt.preventDefault();
+  const submitBtn = evt.submitter;
+  submitBtn.textContent = "Saving...";
+
   api
     .postCard({ name: newPostCaption.value, link: newPostLink.value })
     .then((data) => {
@@ -270,6 +270,9 @@ function handleNewPostSubmit(evt) {
     })
     .catch((err) => {
       console.error(err);
+    })
+    .finally(() => {
+      submitBtn.textContent = "Save";
     });
 }
 
