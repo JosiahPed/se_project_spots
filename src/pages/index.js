@@ -258,11 +258,7 @@ function handleNewPostSubmit(evt) {
   api
     .postCard({ name: newPostCaption.value, link: newPostLink.value })
     .then((data) => {
-      const inputValues = {
-        name: data.name,
-        link: data.link,
-      };
-      const cardEl = getCardElement(inputValues);
+      const cardEl = getCardElement(data);
       cardsList.prepend(cardEl);
       closeModal(newPostModal);
       evt.target.reset();
