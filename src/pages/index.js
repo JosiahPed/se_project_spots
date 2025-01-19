@@ -1,5 +1,15 @@
 import "./index.css";
 import Api from "../utils/Api.js";
+import { enableValidation } from "../scripts/validation.js";
+import { disableButton } from "../scripts/validation.js";
+import { settings } from "../scripts/validation.js";
+import { resetValidation } from "../scripts/validation.js";
+
+import logoSrc from "../images/logo.svg";
+import avatarSrc from "../images/avatar.jpg";
+import pencilSrc from "../images/pencil.svg";
+import newPostSrc from "../images/new_post.svg";
+import pencilAvatarSrc from "../images/pencil-white.svg";
 
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
@@ -13,7 +23,6 @@ api
   .getAppInfo()
   .then(([cards, users]) => {
     cards.forEach((card) => {
-      const cardEl = getCardElement(card);
       renderCard(card);
     });
 
@@ -24,17 +33,6 @@ api
   .catch((err) => {
     console.error(err);
   });
-
-import { enableValidation } from "../scripts/validation.js";
-import { disableButton } from "../scripts/validation.js";
-import { settings } from "../scripts/validation.js";
-import { resetValidation } from "../scripts/validation.js";
-
-import logoSrc from "../images/logo.svg";
-import avatarSrc from "../images/avatar.jpg";
-import pencilSrc from "../images/pencil.svg";
-import newPostSrc from "../images/new_post.svg";
-import pencilAvatarSrc from "../images/pencil-white.svg";
 
 const logoImage = document.getElementById("logo-svg");
 logoImage.src = logoSrc;
@@ -47,14 +45,8 @@ newPostImage.src = newPostSrc;
 const avatarEdit = document.getElementById("pencil-avatar");
 avatarEdit.src = pencilAvatarSrc;
 
-import galaxyImage from "../images/1.2scott-lord-hnBcyFZR--Q-unsplash.jpg";
-import pacificNorthWestImage from "../images/2.2aiden-_luqEchlLxQ-unsplash.jpg";
-import fallImage from "../images/3.2noah-silliman-y3IwQ9hUE4A-unsplash.jpg";
-import rockyMountainsImage from "../images/4.2mike-scheid-xoYPV4oVQJI-unsplash.jpg";
-import gravelBikeImage from "../images/5.2alessio-soggetti-sJE9qSemdFk-unsplash.jpg";
-import pikesPlaceImage from "../images/6.2david-izquierdo-XXec738eA9I-unsplash.jpg";
-
 const closeButtons = document.querySelectorAll(".modal__close-button");
+const cancelButton = document.querySelector(".modal__button-cancel");
 
 // profile edit selectors
 const profileEditButton = document.querySelector(".profile__edit-button");
@@ -258,8 +250,7 @@ function handleNewPostSubmit(evt) {
   api
     .postCard({ name: newPostCaption.value, link: newPostLink.value })
     .then((data) => {
-      const cardEl = getCardElement(data);
-      cardsList.prepend(cardEl);
+      renderCard(data);
       closeModal(newPostModal);
       evt.target.reset();
       disableButton(newPostSubmitButton, settings);
@@ -287,6 +278,10 @@ profileEditButton.addEventListener("click", () => {
 closeButtons.forEach((button) => {
   const modal = button.closest(".modal");
   button.addEventListener("click", () => closeModal(modal));
+});
+
+cancelButton.addEventListener("click", () => {
+  closeModal(cardDeleteModal);
 });
 
 editFormElement.addEventListener("submit", handleEditFormSubmit);

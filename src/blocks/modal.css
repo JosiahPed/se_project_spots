@@ -234,6 +234,11 @@
     right: 10px;
   }
 
+  .modal__close-button_type_delete-card {
+    top: -45px;
+    right: 5px;
+  }
+
   .modal__label {
     margin-bottom: 24px;
   }
@@ -244,5 +249,17 @@
 
   .modal__button {
     width: 100%;
+  }
+
+  .modal__container_type_delete-card {
+    white-space: wrap;
+  }
+
+  .modal__button-delete {
+    margin-bottom: 12px;
+  }
+
+  .modal__title-delete {
+    text-align: center;
   }
 }
