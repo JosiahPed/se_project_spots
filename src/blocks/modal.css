@@ -33,6 +33,14 @@
   font-weight: 500;
 }
 
+.modal__container_type_delete-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 24px;
+}
+
 .modal__container_type_preview {
   padding: 0;
   background-color: transparent;
@@ -75,6 +83,13 @@
 }
 
 .modal__close-button_type_preview {
+  background: transparent url(../images/close-button-light.svg) center no-repeat;
+  opacity: 1;
+  top: -5px;
+  right: -45px;
+}
+
+.modal__close-button_type_delete-card {
   background: transparent url(../images/close-button-light.svg) center no-repeat;
   opacity: 1;
   top: -5px;
@@ -144,7 +159,7 @@
   line-height: 1.1;
 }
 
-.modal__submit-button {
+.modal__button {
   width: 156px;
   padding: 18px 0;
   background-color: #000;
@@ -156,14 +171,38 @@
   font-weight: 500;
   transition: background 0.25s ease 0.15s;
 }
-.modal__submit-button_inactive {
+
+.modal__button-delete {
+  background-color: rgba(255, 101, 101, 1);
+  color: #000;
+  transition: background 0.25s ease 0.15s;
+  margin-right: 20px;
+}
+
+.modal__button-cancel {
+  background-color: rgb(255, 253, 253);
+  border: solid;
+  color: #000;
+  transition: background 0.25s ease 0.15s;
+}
+
+.modal__button-cancel:hover {
+  background-color: rgba(33, 33, 33, 1);
+  color: #fff;
+}
+
+.modal__button_inactive {
   background-color: rgba(0, 0, 0, 0.5);
   pointer-events: none;
 }
 
-.modal__submit-button:hover {
+.modal__button:hover {
   background-color: rgba(33, 33, 33, 0.8);
   cursor: pointer;
+}
+
+.modal__button-delete:hover {
+  background-color: rgba(255, 51, 51, 1);
 }
 
 @media screen and (max-width: 660px) {
@@ -195,6 +234,11 @@
     right: 10px;
   }
 
+  .modal__close-button_type_delete-card {
+    top: -45px;
+    right: 5px;
+  }
+
   .modal__label {
     margin-bottom: 24px;
   }
@@ -203,7 +247,19 @@
     font-size: 16px;
   }
 
-  .modal__submit-button {
+  .modal__button {
     width: 100%;
+  }
+
+  .modal__container_type_delete-card {
+    white-space: wrap;
+  }
+
+  .modal__button-delete {
+    margin-bottom: 12px;
+  }
+
+  .modal__title-delete {
+    text-align: center;
   }
 }
